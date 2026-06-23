@@ -1,0 +1,33 @@
+# Marp CLI configuration for CNCF TOC presentations
+# Documentation: https://github.com/marp-team/marp-cli
+
+# Engine settings
+engine:
+  convert:
+    # Allow local files (needed for images and custom themes)
+    allowLocalFiles: true
+
+    # Default theme
+    theme: cncf
+
+    # HTML engine options
+    html:
+      minify: false
+
+    # PDF engine options
+    pdf:
+      format: A4
+      printBackground: true
+
+# Preview server settings
+preview:
+  port: 8080
+
+# Watch mode settings
+watch:
+  enabled: true
+
+# Output settings
+output:
+  # Default output format (html, pdf, pptx)
+  format: html

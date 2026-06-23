@@ -1,0 +1,62 @@
+# Marp Presentation Skill Configuration
+#
+# Copy this file to your repository as customized/marp-presentation.yaml
+# and customize for your needs
+
+# Theme selection
+theme: cncf  # cncf | default | gaia | uncover
+
+# Output settings
+output:
+  format: html  # html | pdf | pptx
+  directory: presentations/output
+
+# Branding
+branding:
+  logo: assets/cncf-logo.svg
+  footer_text: "CNCF TOC"
+  show_pagination: true
+
+# Presentation defaults
+defaults:
+  # Aspect ratio
+  size: 16:9  # 16:9 | 4:3
+
+  # Pagination
+  paginate: true
+
+  # Page numbers start at
+  paginate_start: 2  # Skip title slide
+
+  # Header text (appears on all slides except title)
+  header: ""
+
+# PDF export settings
+pdf:
+  allow_local_files: true
+  format: A4  # A4 | Letter
+
+# HTML export settings
+html:
+  # Enable browser sync for live reload
+  watch: true
+
+  # Server port for preview
+  port: 8080
+
+# Custom CSS overrides (applied after theme)
+custom_css: |
+  section {
+    font-size: 26px;
+  }
+
+  h1 {
+    font-size: 2.2em;
+  }
+
+# Template variables (replace in markdown)
+variables:
+  presenter_name: "Your Name"
+  presenter_title: "TOC Member"
+  organization: "CNCF"
+  meeting_type: "TOC Meeting"

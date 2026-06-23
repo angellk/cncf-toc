@@ -1,0 +1,355 @@
+/**
+ * @theme cncf
+ * @author CNCF TOC
+ * @description CNCF official theme for Marp presentations
+ * @url https://github.com/cncf/toc/tree/main/skills/marp-presentation
+ */
+
+@import 'default';
+
+/* CNCF Official Brand Colors
+ * Source: https://www.cncf.io/brand-guidelines/
+ * Official artwork: https://github.com/cncf/artwork
+ */
+:root {
+  /* Primary CNCF Colors */
+  --cncf-blue: #0086FF;           /* PANTONE 285C - Primary brand color */
+  --cncf-black: #000000;          /* PANTONE BLACK C - Primary text */
+
+  /* Secondary CNCF Colors */
+  --cncf-turquoise: #93EAFF;      /* PANTONE 2995C - Accent/highlight */
+  --cncf-pink: #D62293;           /* PANTONE 213C - Vibrant accent */
+  --cncf-stone: #E5E5E5;          /* PANTONE WARM GREY 1C - Neutral */
+  --cncf-cloud-white: #FFFFFF;    /* Cloud white */
+
+  /* Kubernetes Colors (complementary for K8s-focused content) */
+  --kubernetes-blue: #326CE5;     /* Kubernetes primary */
+
+  /* Extended Neutral Palette */
+  --cncf-dark-gray: #263238;      /* Dark text */
+  --cncf-gray: #455A64;           /* Medium text */
+  --cncf-medium-gray: #607D8B;    /* Light text */
+  --cncf-light-gray: #CFD8DC;     /* Borders */
+
+  /* Functional Color Assignments */
+  --primary-color: var(--cncf-blue);
+  --secondary-color: var(--cncf-turquoise);
+  --accent-color: var(--cncf-pink);
+  --text-color: var(--cncf-dark-gray);
+  --heading-color: var(--cncf-blue);
+  --link-color: var(--cncf-blue);
+  --background-color: var(--cncf-cloud-white);
+}
+
+/* Section (Slide) Defaults */
+section {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 28px;
+  line-height: 1.6;
+  padding: 60px 80px;
+  width: 1280px;
+  height: 720px;
+}
+
+/* Headings */
+h1 {
+  color: var(--heading-color);
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  border-bottom: 4px solid var(--secondary-color);
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  color: var(--heading-color);
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  color: var(--cncf-gray);
+  font-size: 1.3em;
+  font-weight: 600;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+}
+
+h4 {
+  color: var(--cncf-gray);
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+/* Links */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.2s;
+}
+
+a:hover {
+  border-bottom: 2px solid var(--link-color);
+}
+
+/* Lists */
+ul, ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+/* Code */
+code {
+  background-color: #F5F7FA;
+  color: var(--cncf-gray);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: #F5F7FA;
+  border-left: 4px solid var(--secondary-color);
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: var(--cncf-white);
+  padding: 0.6em;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  border: 1px solid var(--cncf-light-gray);
+  padding: 0.6em;
+}
+
+tr:nth-child(even) {
+  background-color: #F5F7FA;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--secondary-color);
+  padding-left: 1em;
+  margin-left: 0;
+  font-style: italic;
+  color: var(--cncf-gray);
+}
+
+/* Title Slide */
+section.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--cncf-blue) 0%, var(--cncf-cyan) 100%);
+  color: var(--cncf-white);
+}
+
+section.title h1 {
+  color: var(--cncf-white);
+  border-bottom: none;
+  font-size: 3em;
+  margin-bottom: 0.3em;
+}
+
+section.title p {
+  font-size: 1.2em;
+  margin: 0.3em 0;
+  color: var(--cncf-white);
+}
+
+/* Two-column layout */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+}
+
+/* Footer */
+section::after {
+  content: attr(data-marpit-pagination) '/' attr(data-marpit-pagination-total);
+  position: absolute;
+  bottom: 30px;
+  right: 80px;
+  font-size: 0.6em;
+  color: var(--cncf-gray);
+}
+
+/* Header (can add CNCF logo) */
+section header {
+  position: absolute;
+  top: 30px;
+  left: 80px;
+  font-size: 0.7em;
+  color: var(--cncf-gray);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+}
+
+/* Emphasis */
+strong {
+  color: var(--cncf-blue);
+  font-weight: 700;
+}
+
+em {
+  color: var(--cncf-gray);
+  font-style: italic;
+}
+
+/* Section backgrounds */
+section.lead {
+  background-color: var(--primary-color);
+  color: var(--cncf-white);
+}
+
+section.lead h1,
+section.lead h2,
+section.lead h3 {
+  color: var(--cncf-white);
+}
+
+/* Highlight boxes */
+.highlight {
+  background-color: #E3F2FD;
+  border-left: 4px solid var(--secondary-color);
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.warning {
+  background-color: #FFF3E0;
+  border-left: 4px solid #FF9800;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.success {
+  background-color: #E8F5E9;
+  border-left: 4px solid #4CAF50;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+/* Compact section layouts */
+section.compact {
+  font-size: 20px;
+  padding: 30px 50px;
+  line-height: 1.3;
+}
+
+section.compact h2 {
+  font-size: 1.4em;
+  margin-bottom: 0.4em;
+}
+
+section.compact table {
+  font-size: 0.8em;
+}
+
+section.compact li {
+  margin-bottom: 0.3em;
+}
+
+/* Dense readout format */
+section.readout {
+  font-size: 22px;
+  padding: 24px 48px;
+  line-height: 1.3;
+}
+
+section.readout h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.4em;
+  margin-top: 0;
+}
+
+section.readout h3 {
+  font-size: 0.95em;
+  margin-top: 0.5em;
+  margin-bottom: 0.3em;
+}
+
+section.readout ul,
+section.readout ol {
+  margin: 0.3em 0;
+  padding-left: 1.2em;
+}
+
+section.readout li {
+  margin-bottom: 0.2em;
+}
+
+/* Structured grid layouts */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5em;
+}
+
+.grid-section {
+  padding: 1em;
+  border-radius: 4px;
+}
+
+/* Colored section headers for status/categories */
+.section-positive h3,
+.section-highlights h3 {
+  color: #2E7D32;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 0.2em;
+}
+
+.section-negative h3,
+.section-issues h3 {
+  color: #C62828;
+  border-bottom: 2px solid #F44336;
+  padding-bottom: 0.2em;
+}
+
+.section-neutral h3,
+.section-recommendations h3 {
+  color: var(--cncf-blue);
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 0.2em;
+}
