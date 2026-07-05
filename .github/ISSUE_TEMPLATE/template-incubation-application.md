@@ -18,7 +18,7 @@ This template provides the project with a framework to inform the TOC of their c
 
 Project Repo(s): $URL
 Project Site:  $URL
-Sub-Projects: $LIST _(If none, confirm that no repos under your org share ≥3 maintainers with another CNCF project.)_
+Sub-Projects: $LIST
 Related Projects: $LIST _(List any projects you or your core maintainers operate in other foundations (Linux Foundation, Apache, Eclipse, etc.) that are technically related to this project. Include: project name, foundation, and relationship.)_
 Communication: $SLACK
 
