@@ -19,7 +19,7 @@ This template provides the project with a framework to inform the TOC of their c
 
 Project Repo(s): $URL
 Project Site:  $URL
-Sub-Projects: $LIST
+Sub-Projects: $LIST _(If none, confirm that no repos under your org share ≥3 maintainers with another CNCF project.)_
 Related Projects: $LIST _(List any projects you or your core maintainers operate in other foundations (Linux Foundation, Apache, Eclipse, etc.) that are technically related to this project. Include: project name, foundation, and relationship.)_
 Communication: $SLACK
 
@@ -255,7 +255,11 @@ Note: this section may be augmented by a joint-assessment performed by TAG Secur
 
 <!-- (Project assertion goes here) --> 
 
+<<<<<<< HEAD
 - [ ] **Document assignment of security response roles and how reports are handled.** _(This is distinct from the security reporting process above — document who is responsible for triaging and responding to reports, not just where to send them. For reference, see the [Kubernetes Security Response Committee](https://github.com/kubernetes/committee-security-response) as a model for named membership, documented responsibilities, and a clear escalation path.)_
+=======
+- [ ] **Document assignment of security response roles and how reports are handled.** _(This is distinct from the security reporting process above — document who is responsible for triaging and responding to reports, not just where to send them.)_
+>>>>>>> fdc579d (docs(templates): clarify incubation and graduation application requirements)
 
 <!-- (Project assertion goes here) --> 
 
