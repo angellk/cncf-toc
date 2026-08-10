@@ -1,6 +1,6 @@
 # CNCF Project Governance — Best Practices and Recommendations
 
-**Date:** 2026-07-05
+**Date:** 2026-08-10
 **Author:** Karena Angell, CNCF TOC
 **Based on:** CNCF Projects Governance Analysis by the TOC (71 graduated and incubating projects evaluated)
 **Status:** Draft for TOC review
@@ -35,7 +35,7 @@ The recommendations are cumulative — each level builds on the previous.
 
 2. **GOVERNANCE.md.** Discoverable governance documentation — at repo root or in a community repo. Must cover how decisions are made, how maintainers are added/removed, and the project's code of conduct. See the [CNCF governance templates](https://contribute.cncf.io/maintainers/templates/) and [governance introduction](https://contribute.cncf.io/resources/templates/governance-intro/) for starting points.
 
-3. **MAINTAINERS file with affiliations.** Complete list of current maintainers with names, GitHub handles, and organizational affiliation. Affiliations must be kept current. See the [CNCF MAINTAINERS template](https://github.com/cncf/project-template/blob/main/MAINTAINERS.md).
+3. **MAINTAINERS file with affiliations.** Complete list of current maintainers with names, GitHub handles, and organizational affiliation. Affiliations must be kept current, with updates within 30 days of employment changes. See the [CNCF MAINTAINERS template](https://github.com/cncf/project-template/blob/main/MAINTAINERS.md).
 
 4. **Code of Conduct.** Adopt the CNCF Code of Conduct or a project CoC based on it. Cross-link from governance and contributing docs.
 
@@ -59,11 +59,7 @@ The recommendations are cumulative — each level builds on the previous.
 
 ### Required (cumulative with Sandbox)
 
-10. **Org-balanced voting for governance decisions.** One vote per organization, regardless of maintainer count. This is the single most effective anti-concentration mechanism identified in the governance analysis.
-
-    Each organization gets one vote on governance decisions (steering elections, governance changes, strategic direction), regardless of how many maintainers that organization employs. If two maintainers are employed by Company X, two by Company Y, two by Company Z, and one maintainer is an independent individual, a total of four organization votes are possible.
-
-    Technical decisions (code review, merge, release) remain lazy consensus among all maintainers — org-balanced voting protects governance, not day-to-day engineering.
+10. **Maintainer affiliations current with update policy.** Affiliations must be current, with a policy in place requiring updates within 30 days of employment changes. If affiliations have lapsed, the project should document how they identified and corrected them. This is the foundation for verifying organizational diversity at graduation.
 
 11. **Documented contributor ladder with multiple roles.** At minimum: contributor → reviewer → maintainer. Specific requirements at each level. The path must not require sponsorship from the dominant organization. See the [CNCF contributor ladder template](https://github.com/cncf/project-template/blob/main/CONTRIBUTOR_LADDER.md).
 
@@ -79,21 +75,25 @@ The recommendations are cumulative — each level builds on the previous.
     - Build/release tooling configured with vendor-specific emails
     - "Enterprise offerings should point to the enterprise page of the project that features all vendors equally"
 
-14. **Security response roles documented.** Not just where to report — document who is responsible for triaging and responding. Named individuals or a committee with defined membership and a clear escalation path.
+14. **Security response roles documented.** Not just where to report -- document who is responsible for triaging and responding. Named individuals or a committee with defined membership and a clear escalation path. For reference, see the [Kubernetes Security Response Committee](https://github.com/kubernetes/committee-security-response) as a model for named membership, documented responsibilities, and escalation.
 
 15. **Related projects disclosed.** If maintainers operate related projects in other foundations (Linux Foundation, Apache, Eclipse, etc.), disclose the relationship, shared maintainers, and scope boundaries.
 
 ### Recommended
 
-16. **Steering committee with org caps.** Separates governance authority from code authority. Recommended structure: 5 seats, max 2 per organization. Initially seats may be empty — they represent the community the project is building toward. See the [steering committee elections template](https://contribute.cncf.io/resources/templates/governance-elections/) and [leadership selection guidance](https://contribute.cncf.io/projects/best-practices/governance/leadership-selection/).
+16. **Org-balanced voting for governance decisions.** One vote per organization, regardless of maintainer count. This is the single most effective anti-concentration mechanism identified in the governance analysis and is required at graduation. Adopting it at incubation gives the project time to demonstrate the mechanism in practice before the graduation DD.
+
+    Each organization gets one vote on governance decisions (steering elections, governance changes, strategic direction), regardless of how many maintainers that organization employs. Technical decisions (code review, merge, release) remain lazy consensus among all maintainers. See the [Org-Balanced Voting template](https://github.com/cncf/project-template/blob/main/GOVERNANCE-org-balanced-voting.md) for a reusable module.
+
+17. **Steering committee with org caps.** Separates governance authority from code authority. Recommended structure: 5 seats, max 2 per organization. Initially seats may be empty -- they represent the community the project is building toward. See the [steering committee elections template](https://contribute.cncf.io/resources/templates/governance-elections/) and [leadership selection guidance](https://contribute.cncf.io/projects/best-practices/governance/leadership-selection/).
 
     Projects that separate governance (steering) from execution (maintainers) sustain diversity longer because committee membership has org caps even when maintainer composition shifts.
 
-17. **Emeritus enforcement.** Apply the inactivity policy. Move inactive maintainers to emeritus status. The governance analysis found projects listing inactive external maintainers for years to inflate apparent diversity.
+18. **Emeritus enforcement.** Apply the inactivity policy. Move inactive maintainers to emeritus status. The governance analysis found projects listing inactive external maintainers for years to inflate apparent diversity.
 
-18. **CODEOWNERS mapping.** Code and doc ownership in GitHub matches documented governance roles.
+19. **CODEOWNERS mapping.** Code and doc ownership in GitHub matches documented governance roles.
 
-19. **Public meeting schedule.** Regular community meetings with published notes or recordings. Integration with CNCF calendar.
+20. **Public meeting schedule.** Regular community meetings with published notes or recordings. Integration with CNCF calendar.
 
 ### Governance practice period
 
@@ -114,21 +114,23 @@ This is not punitive — it verifies governance works under real conditions. Pro
 
 ### Required (cumulative with Incubating)
 
-20. **Maintainers from at least 2 organizations.** Required by existing graduation criteria. The governance analysis recommends verifying this through **LFX Insights org dependency data**, not just the MAINTAINERS file. The gap between listed diversity and actual contribution dependency is a known pattern.
+21. **Maintainers from at least 2 organizations.** Verified through the current project maintainer list, including affiliations. Use [LFX Insights](https://insights.lfx.linuxfoundation.org/) where available to corroborate organizational contribution patterns; explain any unavailable or conflicting data. The gap between listed diversity and actual contribution dependency is a known pattern.
 
-21. **Governance/code alignment verified.** Steering committee diversity must match actual committer pool diversity. Multiple graduated projects have governance bodies with external representation while the actual code maintainers remain 100% single-org.
+22. **Org-balance mechanism for governance decisions.** Document and demonstrate an org-balance mechanism such as org-balanced voting, a steering committee with org caps, or equivalent structural protection ensuring no single organization controls governance decisions regardless of maintainer composition. See the [Org-Balanced Voting template](https://github.com/cncf/project-template/blob/main/GOVERNANCE-org-balanced-voting.md) for a reusable module.
 
-22. **Succession planning documented.** What happens if the primary maintainer organization exits? Graduated projects should document the contingency — who takes over releases, who holds infrastructure credentials, who manages the security response process.
+23. **Governance/code alignment verified.** Steering committee diversity must match actual committer pool diversity. Multiple graduated projects have governance bodies with external representation while the actual code maintainers remain 100% single-org.
 
-23. **Contributor ladder producing external maintainers.** The ladder must have demonstrably produced maintainers from outside the dominant organization. A documented ladder that has never produced an external maintainer is not evidence of openness.
+24. **Succession planning documented.** What happens if the primary maintainer organization exits? Graduated projects should document the contingency -- who takes over releases, who holds infrastructure credentials, who manages the security response process.
+
+25. **Contributor ladder producing external maintainers, as applicable.** The ladder should have demonstrably produced maintainers from more than one contributing organization. A documented ladder that has never produced an external maintainer is not evidence of openness. The "as applicable" qualifier recognizes that not all projects have a single dominant contributing organization, and the requirement should be evaluated in context.
 
 ### Recommended
 
-24. **Advisory board or end-user representation.** Formal seats for adopters in governance decisions — giving production users a voice alongside maintainers.
+26. **Advisory board or end-user representation.** Formal seats for adopters in governance decisions -- giving production users a voice alongside maintainers.
 
-25. **Post-graduation governance health check.** The TOC recommends annual health checks on maintainer org composition for graduated projects. Multiple graduated projects currently show concentration concerns that would have been caught with monitoring.
+27. **Post-graduation governance health check.** The TOC recommends committing to a biennial governance health check on maintainer organizational composition. This is a lightweight self-assessment to detect post-graduation governance concentration trends early. Multiple graduated projects currently show concentration concerns that would have been caught with regular monitoring.
 
-26. **OpenSSF Best Practices silver or gold badge.** Suggested, not required — but projects pursuing graduation should aim for silver (87% or higher) as evidence of security maturity.
+28. **OpenSSF Best Practices silver or gold badge.** Suggested, not required -- but projects pursuing graduation should aim for silver (87% or higher) as evidence of security maturity.
 
 ---
 
@@ -173,6 +175,7 @@ This document does **not** replace the incubation or graduation criteria. It sup
 - [Governance Introduction](https://contribute.cncf.io/resources/templates/governance-intro/)
 - [Contributor Ladder Template](https://github.com/cncf/project-template/blob/main/CONTRIBUTOR_LADDER.md)
 - [GOVERNANCE.md Template](https://github.com/cncf/project-template/blob/main/GOVERNANCE.md)
+- [Org-Balanced Voting Template](https://github.com/cncf/project-template/blob/main/GOVERNANCE-org-balanced-voting.md)
 - [Vendor Neutrality Guidelines](https://contribute.cncf.io/maintainers/community/vendor-neutrality/)
 - [Leadership Selection Guidance](https://contribute.cncf.io/projects/best-practices/governance/leadership-selection/)
 - [Incentivizing Contributors](https://contribute.cncf.io/projects/best-practices/community/contributor-growth/incentivizing-contributors/)
