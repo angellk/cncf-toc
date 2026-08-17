@@ -149,11 +149,8 @@ This document also provides the CNCF TAG-Security community with an initial unde
 
 - **Provider authentication gate.** All API access flows through AuthMiddleware > provider.GetSession(). For remote providers this performs RS256 JWT signature verification against the provider's JWKS, expiry validation, server-side introspection (to honor revocation), and token refresh. This is the central authentication control for multi-user deployments.
 - **Capability/role-based authorization model.** A fine-grained permission matrix (server/permissions/keys.csv) maps capabilities to roles and is enforced together with a remote provider, constraining which management actions a principal may perform.
-- **Software supply-chain integrity controls.** Mandatory DCO sign-off, required peer review with branch protection, and a CI gate (lint/static analysis, CodeQL, container and dependency scanning, OpenSSF Scorecard, OSPS Baseline) that must pass before merge or release. See [Development pipeline](#development-pipeline).
 - **Centralized input sanitization for query ordering.** A shared SanitizeOrderInput routine was introduced to close the class of SQL-injection issues found in order/sort query parameters (see [Known issues over time](#known-issues-over-time)).
-
 **Security relevant** - configurable components that materially affect the security posture of a deployment. These should also be included in threat modeling.
-
 - **Provider selection.** A key lever: the Local provider disables authentication, turning Meshery into single-user mode; a remote provider must be selected in order for identity providers to be enforced for authenticated, multi-user, or exposed deployments.
 - **TLS termination.** The server speaks plaintext HTTP in-process; production deployments must terminate TLS at an ingress/reverse proxy.
 - **Session cookie attributes.** Session/token cookies are HttpOnly but do not currently set Secure or SameSite; deploy behind TLS and consider proxy-level hardening. (Hardening these flags is a roadmap item.)
