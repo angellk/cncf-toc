@@ -72,6 +72,8 @@ The Meshery datastore is intentionally treated as a cache of authoritative clust
 
 The following components ("actors") interact to deliver Meshery's functionality (see [logical architecture](https://docs.meshery.io/concepts/architecture) for diagrams). Isolation between them rests primarily on container/process boundaries and Kubernetes RBAC; see [Non-goals](#non-goals) and [Security functions and features](#security-functions-and-features) for the boundaries Meshery does and does not enforce by default.
 
+### System and internal actors
+
 | Actor | Function | Security / isolation measures |
 |---|---|---|
 | **Meshery Server** | Core control plane: serves the UI, REST API, and a GraphQL API; orchestrates adapters; consumes MeshSync data; manages provider sessions. | Every API route passes through provider > auth > session-injector middleware. With a remote provider, requests require a verified JWT session; with the local provider, the session is anonymous (single-user). Serves plaintext HTTP in-process - TLS is expected to be terminated by an ingress/reverse proxy. Runs with broad (cluster-admin-equivalent) Kubernetes RBAC by default. |
@@ -82,7 +84,36 @@ The following components ("actors") interact to deliver Meshery's functionality 
 | **Providers (Local / Remote)** | Pluggable identity and persistence backends. The Local provider is built-in; Remote providers add cloud-backed identity and persistence. | Local = anonymous, single-user, no login (by design). Remote = browser-based OAuth login + RS256 JWT verification against the provider's JWKS, with token expiry checks, server-side introspection (revocation), and refresh, over HTTPS. The PROVIDER setting selects/enforces which provider is in effect. |
 | **Registry / Database** | SQLite datastore holding the model/component registry, designs, MeshSync-discovered resources, connections, credentials, events, and user preferences. | SQLite file (WAL mode) under the user-data folder, treated as a cache. No application-layer encryption at rest - protection relies on disk/file permissions (or the remote provider's controls for cloud-persisted data). |
 | **mesheryctl** | Command-line interface for installing, operating, and interacting with Meshery. | Authenticates via the same browser-based OAuth flow; the resulting token is written to ~/.meshery/auth.json on the local filesystem (protect via file permissions). |
-| **UI / Provider UI** | Next.js single-page applications served by the server for management and provider selection. | Communicate with the server over REST and GraphQL (subscriptions over WebSocket). The GraphQL WebSocket origin check is currently permissive; restrict origins at the proxy when exposing Meshery. |
+| **UI / Provider UI** | Next.js single-page applications served by the server for management and provider selection. | Communicate with the server over REST. Subscriptions are Server-Side Events (SSE) over the authenticated REST path. |
+
+### Human and external actors
+
+The component table above lists the software actors Meshery ships. The following actors are not components of Meshery, but participate in the system and hold authority over it.
+
+| Actor | Type | What they can do | Trust boundary and limits |
+|---|---|---|---|
+| **Kubernetes cluster** | System | The managed system. Accepts API calls from Meshery Server, hosts the Operator, MeshSync and the Broker, and returns resource state. | Not a component Meshery ships, but squarely inside the trust boundary: the server holds cluster-admin-equivalent RBAC by default, so the cluster grants Meshery effectively unrestricted authority. |
+| **Cluster administrator** | Human | Installs Meshery, grants its ServiceAccount RBAC, decides whether the Broker is exposed and whether broker auth and TLS are enabled, terminates TLS at the ingress. | Holds authority Meshery cannot constrain, and owns every control this document describes as operator-supplied. Most default-off protections are theirs to enable. |
+| **Meshery operator (deployer)** | Human | Runs the server, sets `PROVIDER`, `ADAPTER_URLS` and provider base URLs; owns the host filesystem holding the SQLite datastore. | Fully trusted. Can read the datastore and any credential in it directly, since there is no application-layer encryption at rest. |
+| **End user (authenticated)** | Human | Registers clusters by supplying kubeconfigs, composes and deploys designs, runs benchmarks, invokes adapter operations. | With a remote provider, identity is provider-verified and capability keys apply. With the local provider there is exactly one anonymous, all-empowered user by design. |
+| **Organization or provider admin** | Human | Assigns roles and keychains at the remote provider, determining what each principal may do. | Authority lives with the provider, not with Meshery. Meshery enforces the result; it does not decide it. |
+| **Remote provider (third party)** | External | Authenticates principals, issues and revokes sessions, adjudicates authorization, persists designs and credentials. | A trusted external dependency. Meshery honors its decisions; a compromised provider is a compromise of Meshery's authorization. |
+| **Other cluster users and workloads** | External | Share the cluster; may have network reach to the Broker and to in-cluster components. | Outside Meshery's authentication entirely. Their reach is bounded by cluster network policy, which Meshery does not configure. |
+
+### Assumed adversaries
+
+Each limit below is drawn from this document's own Actors table and Non-goals. Where a protection is off by default, that is stated rather than implied.
+
+| Adversary | What they could attempt | What limits them today |
+|---|---|---|
+| **Unauthenticated network attacker** | Reach the server's HTTP port or the Broker's exposed service and read or inject cluster state. | Server API requires a verified JWT session under a remote provider. However, the server speaks plaintext HTTP in-process and relies on an ingress for TLS, and the Broker supports authentication and TLS with **both unset by default** while typically exposed via LoadBalancer or NodePort. |
+| **Authenticated but unauthorized user** | Invoke a management action their role does not grant. | Capability keys mapped to roles, adjudicated by the provider and enforced by the server. See Security functions for the enforcement path and its coverage shape. |
+| **Compromised or malicious adapter** | Impersonate an adapter, or intercept and modify operations dispatched to one. | Adapters are **disabled by default** (opt-in via `ADAPTER_URLS`). Once enabled, the server-adapter gRPC channel is **plaintext with no mutual TLS**, and adapters reuse the server's ServiceAccount. |
+| **Hostile in-cluster workload** | Reach the Broker from inside the cluster and publish forged resource events, poisoning the server's view of the cluster. | Bounded only by cluster network policy, which Meshery does not configure, plus broker authentication and TLS if the operator enabled them. |
+| **Local filesystem attacker** | Read cluster credentials, sessions, or the CLI token from disk. | **Filesystem permissions only.** The SQLite datastore has no application-layer encryption at rest, and `mesheryctl`'s token is stored at `~/.meshery/auth.json` in plaintext. |
+| **Malicious design or component content** | Get a crafted design deployed, using the server's broad RBAC to create arbitrary cluster resources. | Designs are validated against model and relationship policy (Rego/OPA), but that is a correctness check rather than a security boundary. The server holds cluster-admin-equivalent RBAC, so an approved deployment is effectively unrestricted. |
+| **Compromised remote provider** | Issue valid sessions or authorization decisions for principals who should not have them. | Explicitly trusted. Meshery verifies signatures, expiry and revocation against the provider, but does not second-guess a correctly signed decision. |
+
 
 ## Actions
 
